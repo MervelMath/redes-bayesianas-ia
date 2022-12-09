@@ -15,15 +15,13 @@ modelo_seguranca = BayesianNetwork( [
         )
 
 #region tabelas
-
 autenticacao_cpd = TabularCPD(
     variable = 'Autenticacao',
     variable_card = 3,
     values=[[0.2], [0.5],[0.3]],
     state_names={"Autenticacao": ["Forte", "Medio", "Fraco"]}
 )
-
-print(autenticacao_cpd)
+# print(autenticacao_cpd)
 
 tupla_cpd = TabularCPD(
     variable='Tupla',
@@ -33,9 +31,7 @@ tupla_cpd = TabularCPD(
     evidence=['Autenticacao'],
     state_names={"Tupla": ["Forte", "Medio", "Fraco"], 'Autenticacao':["Forte", "Medio", "Fraco"]}
     )
-
-
-print(tupla_cpd)
+# print(tupla_cpd)
 
 atualizacao_cpd = TabularCPD(
     variable = 'Atualizacao',
@@ -45,9 +41,7 @@ atualizacao_cpd = TabularCPD(
     evidence=['Tupla'],
     state_names={"Atualizacao": ["Sim", "Nao"], 'Tupla':["Forte", "Medio", "Fraco"]}
     )
-
-
-print(atualizacao_cpd)
+# print(atualizacao_cpd)
 
 case_sensitive_cpd = TabularCPD(
     variable = 'CaseSensitive',
@@ -57,10 +51,7 @@ case_sensitive_cpd = TabularCPD(
     evidence=['Tupla'],
     state_names={"CaseSensitive": ["Sim", "Nao"], 'Tupla':["Forte", "Medio", "Fraco"]}
     )
-
-
-print(case_sensitive_cpd)
-
+# print(case_sensitive_cpd)
 
 alfanumerico_cpd = TabularCPD(
     variable = 'Alfanumerico',
@@ -70,10 +61,7 @@ alfanumerico_cpd = TabularCPD(
     evidence=['Tupla'],
     state_names={"Alfanumerico": ["Sim", "Nao"], 'Tupla':["Forte", "Medio", "Fraco"]}
     )
-
-
-print(alfanumerico_cpd)
-
+# print(alfanumerico_cpd)
 
 minimo_caracteres_cpd = TabularCPD(
     variable = 'MinimoCaracteres',
@@ -83,10 +71,7 @@ minimo_caracteres_cpd = TabularCPD(
     evidence=['Tupla'],
     state_names={"MinimoCaracteres": ["Sim", "Nao"], 'Tupla':["Forte", "Medio", "Fraco"]}
     )
-
-
-print(minimo_caracteres_cpd)
-
+# print(minimo_caracteres_cpd)
 
 caractere_especial_cpd = TabularCPD(
     variable = 'CaractereEspecial',
@@ -96,9 +81,7 @@ caractere_especial_cpd = TabularCPD(
     evidence=['Tupla'],
     state_names={"CaractereEspecial": ["Sim", "Nao"], 'Tupla':["Forte", "Medio", "Fraco"]}
     )
-
-
-print(caractere_especial_cpd)
+# print(caractere_especial_cpd)
 
 biometria_cpd = TabularCPD(
     variable = 'Biometria',
@@ -108,9 +91,7 @@ biometria_cpd = TabularCPD(
     evidence=['Autenticacao'],
     state_names={"Biometria": ["Iris", "DigitalAF", "DigitalSAF", "FacialAF", "FacialSAF"], 'Autenticacao':["Forte", "Medio", "Fraco"]}
     )
-
-
-print(biometria_cpd)
+# print(biometria_cpd)
 
 propriedade_cpd = TabularCPD(
     variable = 'Propriedade',
@@ -120,55 +101,48 @@ propriedade_cpd = TabularCPD(
     evidence=['Autenticacao'],
     state_names={"Propriedade": ["CelularCA", "CelularSCA", "HardKey", "Cartao"], 'Autenticacao':["Forte", "Medio", "Fraco"]}
     )
-
-
-print(propriedade_cpd)
-
+# print(propriedade_cpd)
 
 #endregion
-
 
 modelo_seguranca.add_cpds(autenticacao_cpd, tupla_cpd,
                       atualizacao_cpd, case_sensitive_cpd,
                       alfanumerico_cpd, minimo_caracteres_cpd,
                       caractere_especial_cpd, biometria_cpd,
                       propriedade_cpd)
-inferencia = VariableElimination(modelo_seguranca)
 
-atualizacao_dist = inferencia.query(['Atualizacao'])
-print(atualizacao_dist)
+# atualizacao_dist = inferencia.query(['Atualizacao'])
+# print(atualizacao_dist)
 
-case_sensitive_dist = inferencia.query(['CaseSensitive'])
-print(case_sensitive_dist)
+# case_sensitive_dist = inferencia.query(['CaseSensitive'])
+# print(case_sensitive_dist)
 
-alfanumerico_dist = inferencia.query(['Alfanumerico'])
-print(alfanumerico_dist)
+# alfanumerico_dist = inferencia.query(['Alfanumerico'])
+# print(alfanumerico_dist)
 
-minimo_caracteres_dist = inferencia.query(['MinimoCaracteres'])
-print(minimo_caracteres_dist)
+# minimo_caracteres_dist = inferencia.query(['MinimoCaracteres'])
+# print(minimo_caracteres_dist)
 
-caractere_especial_dist = inferencia.query(['CaractereEspecial'])
-print(caractere_especial_dist)
+# caractere_especial_dist = inferencia.query(['CaractereEspecial'])
+# print(caractere_especial_dist)
 
-tupla_dist = inferencia.query(['Tupla'])
-print(tupla_dist)
-
-
-biometria_dist = inferencia.query(['Biometria'])
-print(biometria_dist)
+# tupla_dist = inferencia.query(['Tupla'])
+# print(tupla_dist)
 
 
-propriedade_dist = inferencia.query(['Propriedade'])
-print(propriedade_dist)
-
-autenticacao_dist = inferencia.query(['Autenticacao'])
-print(autenticacao_dist)
+# biometria_dist = inferencia.query(['Biometria'])
+# print(biometria_dist)
 
 
-inferencia = VariableElimination(modelo_seguranca)
-autenticacao_dist = inferencia.query(['Autenticacao'], evidence={'Tupla' : 'Forte', 'Biometria' : 'Iris', 'Propriedade': 'CelularCA'})
-#chuva_tarde_dist = inferencia.query(['Chuva Tarde'], evidence={'Chuva Manha' : 'Nao', 'Estacao' : 'Verao'})
-#chuva_tarde_dist = inferencia.query(['Chuva Tarde'], evidence={'Chuva Manha' : 'Sim', 'Estacao' : 'Inverno'})
-#chuva_tarde_dist = inferencia.query(['Chuva Tarde'], evidence={'Chuva Manha' : 'Nao', 'Estacao' : 'Inverno'})
-print(autenticacao_dist)
+# propriedade_dist = inferencia.query(['Propriedade'])
+# print(propriedade_dist)
 
+# autenticacao_dist = inferencia.query(['Autenticacao'])
+# print(autenticacao_dist)
+
+def gerar_inferencia(query):
+    inferencia = VariableElimination(modelo_seguranca)
+    return inferencia.query(query[0], evidence=query[1])
+
+# inferencia = VariableElimination(modelo_seguranca)
+# autenticacao_dist = inferencia.query(['Autenticacao'], evidence={'Tupla' : 'Forte', 'Biometria' : 'Iris', 'Propriedade': 'CelularCA'})
