@@ -1,10 +1,13 @@
 from flask import Flask, request
 from flask_cors import CORS
 import main
-import json
 
 api = Flask(__name__)
 CORS(api)
+
+@api.route('/', methods=['GET'])
+def home():
+  return "Home Page"
 
 @api.route('/', methods=['POST'])
 def get_inferencia():
@@ -16,13 +19,9 @@ def get_inferencia():
     ]
 
     try:
-      inferencia = main.gerar_inferencia(json_request)
+      json_response = backend.gerar_inferencia(json_request)
 
-      json_response = {
-        "inferencia": str(inferencia)
-      }
-
-      return json.dumps(json_response)
+      return json_response
     except Exception as ex:
       return ex
   else:
